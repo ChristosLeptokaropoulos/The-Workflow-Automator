@@ -62,6 +62,7 @@ src/
     ├── supabase-admin.ts         # Server-only admin client (service role key)
     └── utils.ts                  # Utility functions
 supabase-schema.sql               # Database schema (pgvector, RLS, indexes, triggers)
+n8n-workflow.json                 # Exportable N8N workflow definition
 ```
 
 ## Setup
@@ -166,6 +167,8 @@ The system detects urgency from **content signals**, not just keywords. A reques
 | **LOW** | Exploratory, nice-to-have, no business pressure |
 
 ## N8N Workflow
+
+The workflow definition is included in the repo as `n8n-workflow.json` — import it into your N8N instance to get started.
 
 The N8N workflow receives classified requests via webhook and routes them based on urgency:
 

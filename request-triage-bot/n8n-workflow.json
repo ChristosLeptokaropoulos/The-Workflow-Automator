@@ -1,0 +1,133 @@
+{
+  "name": "Request Triage Bot",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "75fc8dc7-cf01-4478-84dc-7d6e114278e9",
+        "responseMode": "onReceived",
+        "responseCode": 200,
+        "options": {}
+      },
+      "id": "webhook-node",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [460, 300],
+      "webhookId": "75fc8dc7-cf01-4478-84dc-7d6e114278e9"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-urgency-critical",
+              "leftValue": "={{ $json.body.urgency }}",
+              "rightValue": "CRITICAL",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "condition-urgency-high",
+              "leftValue": "={{ $json.body.urgency }}",
+              "rightValue": "HIGH",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "if-node",
+      "name": "Is Urgent?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [700, 300]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "assign-alert",
+              "name": "alert",
+              "value": "=🚨 URGENT REQUEST: {{ $json.body.title }} ({{ $json.body.urgency }})\nRequester: {{ $json.body.requester_name }} ({{ $json.body.requester_email }})\nCategory: {{ $json.body.category }}\nRouted To: {{ $json.body.routed_team }}\nSummary: {{ $json.body.ai_summary }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "urgent-set-node",
+      "name": "Urgent Alert",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [940, 200]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "assign-log",
+              "name": "log",
+              "value": "=📋 New Request: {{ $json.body.title }} ({{ $json.body.urgency }})\nRequester: {{ $json.body.requester_name }}\nCategory: {{ $json.body.category }}\nRouted To: {{ $json.body.routed_team }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "normal-set-node",
+      "name": "Normal Log",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [940, 420]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Is Urgent?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Urgent?": {
+      "main": [
+        [
+          {
+            "node": "Urgent Alert",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Normal Log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "tags": []
+}
