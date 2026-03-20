@@ -51,11 +51,12 @@ export function RequestForm() {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    const form = e.currentTarget;
     setLoading(true);
     setError(null);
     setResult(null);
 
-    const formData = new FormData(e.currentTarget);
+    const formData = new FormData(form);
     const payload = {
       title: formData.get("title") as string,
       description: formData.get("description") as string,
@@ -81,7 +82,7 @@ export function RequestForm() {
         classification: data.classification,
         similar_requests: data.similar_requests || [],
       });
-      e.currentTarget.reset();
+      form.reset();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
