@@ -1,5 +1,7 @@
 # Request Triage Bot
 
+**Live Demo:** [https://the-workflow-automator.vercel.app](https://the-workflow-automator.vercel.app/)
+
 An AI-powered internal request intake, classification, and routing system built for pharmaceutical companies. Requests are automatically classified by urgency and category using GPT-4o, stored with vector embeddings for semantic similarity search, and routed to the appropriate team via an N8N automation workflow.
 
 ## Architecture
