@@ -59,18 +59,20 @@ export async function POST(req: NextRequest) {
     // 5. Send to N8N webhook (fire-and-forget)
     const n8nUrl = process.env.N8N_WEBHOOK_URL;
     if (n8nUrl) {
+      const webhookPayload = {
+        request_id: insertedRequest.id,
+        title,
+        description,
+        requester_name,
+        requester_email,
+        department,
+        ...classification,
+      };
+      console.log("[N8N Webhook] Sending payload:", JSON.stringify(webhookPayload, null, 2));
       fetch(n8nUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          request_id: insertedRequest.id,
-          title,
-          description,
-          requester_name,
-          requester_email,
-          department,
-          ...classification,
-        }),
+        body: JSON.stringify(webhookPayload),
       }).catch(console.error);
     }
 
