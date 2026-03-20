@@ -25,7 +25,7 @@ Given a request title, description, and optionally department, classify it and r
   - MEDIUM: important but no immediate deadline
   - LOW: nice-to-have, exploratory
 - "routed_team": one of ["Data & Analytics", "Digital Solutions", "IT Operations", "Medical Affairs", "Commercial Tech", "HR Systems", "General"]
-- "summary": a concise 1-2 sentence summary of the request for the triage team
+- "ai_summary": a concise 1-2 sentence summary of the request for the triage team
 - "reasoning": brief explanation of why you classified it this way
 
 Return ONLY valid JSON.`,

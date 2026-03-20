@@ -30,9 +30,8 @@ create table public.requests (
 );
 
 -- Step 3: Index for vector similarity search
--- lists = 10 is appropriate for small-to-medium datasets
-create index on public.requests using ivfflat (embedding vector_cosine_ops)
-  with (lists = 10);
+-- HNSW works on empty tables (unlike IVFFlat which requires existing data)
+create index on public.requests using hnsw (embedding vector_cosine_ops);
 
 -- Step 4: Indexes for dashboard filtering
 create index idx_requests_status on public.requests(status);

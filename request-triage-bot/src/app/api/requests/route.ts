@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabaseAdmin } from "@/lib/supabase";
+import { supabaseAdmin } from "@/lib/supabase-admin";
 import { classifyRequest, generateEmbedding } from "@/lib/openai";
 
 // POST — Submit a new request
@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
         category: classification.category,
         urgency: classification.urgency,
         routed_team: classification.routed_team,
-        ai_summary: classification.summary,
+        ai_summary: classification.ai_summary,
         embedding: JSON.stringify(embedding),
       })
       .select()
@@ -82,7 +82,7 @@ export async function POST(req: NextRequest) {
           category: classification.category,
           urgency: classification.urgency,
           routed_team: classification.routed_team,
-          ai_summary: classification.summary,
+          ai_summary: classification.ai_summary,
           reasoning: classification.reasoning,
         },
         similar_requests: filteredSimilar,

@@ -48,7 +48,7 @@ export function RequestTable() {
 
     const res = await fetch(`/api/requests?${params}`);
     const data = await res.json();
-    setRequests(data);
+    setRequests(Array.isArray(data) ? data : []);
     setLoading(false);
   }, [filterStatus, filterUrgency]);
 

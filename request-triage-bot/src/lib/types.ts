@@ -21,7 +21,7 @@ export interface ClassificationResult {
   category: string;
   urgency: Urgency;
   routed_team: string;
-  summary: string;
+  ai_summary: string;
   reasoning: string;
 }
 
